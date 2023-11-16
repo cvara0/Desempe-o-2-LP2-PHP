@@ -1,39 +1,49 @@
 <?php
 function selectSolicitudPorRolUsuario() {
-    $estado_solicitud = array();
+    $solicitudes = array();
     $_SESSION['id_rol'];
     $_SESSION['id'];
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
-    $QUERY="SELECT S.*
+    $QUERY="SELECT 
+                    S.*, 
+                    T.nombre AS nombre_tipo, 
+                    U.nombre AS nombre_usuario, 
+                    U.apellido AS apellido_usuario,
+                    DATE_FORMAT(S.fecha_carga,'%d/%m/%Y <br> %h:%i:%s') AS fecha_carga,
+                    DATE_FORMAT(S.fecha_estimada_resolucion,'%d/%m/%Y <br> %h:%i:%s') AS fecha_estimada_resolucion
                 FROM 
                     Solicitudes AS S JOIN Tipos AS T ON S.id_tipo=T.id 
                 JOIN 
                     Usuarios AS U ON S.id_usuario=U.id
                 JOIN 
                     Roles AS R ON U.id_rol=R.id
-                WHERE @rol=1 
-                    OR (@rol=2 AND @id_u=U.id)
-                    OR (@rol=3 AND T.id=3)
-                    OR (@rol=4 AND (T.id=1 OR T.id=2))";
+                WHERE ?=1 
+                    OR (?=2 AND ?=U.id)
+                    OR (?=3 AND T.id=3)
+                    OR (?=4 AND (T.id=1 OR T.id=2))
+                ORDER BY fecha_carga ASC";
     // i d s b
     $stmt = $conexion->prepare($QUERY);
-    $stmt->bind_param("iissiii", $radio_tipo,$_SESSION['id'] ,$input_titulo,$textarea_descripcion,$radio_tipo,$radio_tipo,$radio_tipo);
+    $stmt->bind_param("iiiii",$_SESSION['id_rol'],$_SESSION['id_rol'],$_SESSION['id'],$_SESSION['id_rol'],$_SESSION['id_rol'] );
     $stmt->execute();
-    if($stmt){
-        $estado_solicitud['info'] = "Solicitud almacenada!";
-        $estado_solicitud['color']='success';
-        unset($_POST);
-    }else{
-        $estado_solicitud['info'] = "Error al guardar los datos.";
-        $estado_solicitud['color']='danger';
-    }
-    //$request = mysqli_query($conexion, $QUERY);
-    //$resultado = $stmt->get_result();
-    //$data = $resultado->fetch_assoc();
+    $resultado = $stmt->get_result();
+    
+    $i=0;
+    while ($data = $resultado->fetch_assoc()) {
+        $solicitudes[$i]['id'] = $data['id'];
+        $solicitudes[$i]['id_tipo'] = $data['id_tipo'];
+        $solicitudes[$i]['nombre_tipo'] = $data['nombre_tipo'];
+        $solicitudes[$i]['nombre_usuario'] = $data['nombre_usuario'];
+        $solicitudes[$i]['apellido_usuario'] = $data['apellido_usuario'];
+        $solicitudes[$i]['titulo'] = $data['titulo'];
+        $solicitudes[$i]['descripcion'] = $data['descripcion'];
+        $solicitudes[$i]['fecha_carga'] = $data['fecha_carga'];
+        $solicitudes[$i]['fecha_estimada_resolucion'] = $data['fecha_estimada_resolucion'];
+        $solicitudes[$i]['color'] = $data['id_tipo']==1?'info':($data['id_tipo']==2?'warning':'danger');
+        $i++;
+    };
     $stmt->close();
-
-    return $estado_solicitud;
-    //$request=mysqli_query($conexion, $QUERY);
+    return $solicitudes;
 }
 ?>

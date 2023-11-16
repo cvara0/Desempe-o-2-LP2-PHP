@@ -18,10 +18,10 @@ function insertSolicitud($input_titulo, $textarea_descripcion,$radio_tipo) {
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
     $QUERY="INSERT INTO Solicitudes(id_tipo,id_usuario,titulo,descripcion,fecha_carga,fecha_estimada_resolucion) 
-    VALUES (?,?,?,?,CURDATE(),
-    IF (?=1,DATE_ADD(CURDATE(),INTERVAL 7 DAY),
-        IF (?=2,DATE_ADD(CURDATE(),INTERVAL 3 DAY),
-            IF (?=3,DATE_ADD(CURDATE(),INTERVAL 1 DAY),NULL)
+    VALUES (?,?,?,?,NOW(),
+    IF (?=1,DATE_ADD(NOW(),INTERVAL 7 DAY),
+        IF (?=2,DATE_ADD(NOW(),INTERVAL 3 DAY),
+            IF (?=3,DATE_ADD(NOW(),INTERVAL 1 DAY),NULL)
             )
         )
     )";
