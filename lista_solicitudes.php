@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'servicios/bd/usuarios/existe_usuario.php';
 if(!isset($_SESSION['id'])){
   header("Location: login_usuario.php");
   exit();

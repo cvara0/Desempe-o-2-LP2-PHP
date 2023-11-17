@@ -14,10 +14,11 @@ if (!empty($_POST['button_login'])) {
     //la consulta con la BD para que encuentre un usuario registrado con el usuario y clave brindados
     if ( !empty($usuarioLogueado)) {
         if($usuarioLogueado['esta_activo']==1){
+            
             require_once 'servicios/bd/usuarios/sesion.php';
             crearSesion($usuarioLogueado);
             header('Location: index.php');
-            exit;
+            exit();
         }else{
           $mensaje_error='Su cuenta no esta activa.';
         }

@@ -20,6 +20,7 @@ function selectTodoUsuario() {
     while ($data = $resultado->fetch_assoc()) {
         $usuarios[$i]['id_usuario'] = $data['id'];
         $usuarios[$i]['nombre_rol'] = $data['nombre_rol'];
+        $usuarios[$i]['id_rol'] = $data['id_rol'];
         $usuarios[$i]['nombre'] = $data['nombre'];
         $usuarios[$i]['apellido'] = $data['apellido'];
         $usuarios[$i]['foto'] = $data['foto'];

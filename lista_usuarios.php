@@ -1,12 +1,25 @@
 <?php
 session_start();
-if(!isset($_SESSION['id']) || $_SESSION['id_rol']!=1){
+require_once 'servicios/bd/usuarios/existe_usuario.php';
+if(!isset($_SESSION['id'])){
   header("Location: login_usuario.php");
   exit();
 } 
 
 require_once "servicios/bd/usuarios/select_todo_usuario.php";
 $usaurios=selectTodoUsuario();
+
+if (isset($_POST['button_eliminar'])) {
+    
+  require_once 'servicios/bd/usuarios/eliminar_usuario.php';
+  eliminarUsuario($_POST['input_id_eliminar']);
+  header('Location: lista_usuarios.php');
+  exit();
+  //la consulta con la BD para que encuentre un usuario registrado con el usuario y clave brindados
+  
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,10 +39,7 @@ $usaurios=selectTodoUsuario();
           <h1><i class="fa fa-th-list"></i> Usuarios</h1>
         
           <p>Listado total de usuarios</p>
-          
-        
-
-
+  
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -51,6 +61,7 @@ $usaurios=selectTodoUsuario();
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
+                    <th>ROL</th>
                     <th>Último Acceso</th>
                     <th>¿Está Activo?</th>
                     <th>Opciones</th>
@@ -61,16 +72,22 @@ $usaurios=selectTodoUsuario();
                     <tr class="table-<?php echo($usuario['color'])?>">
                       <td><?php echo($i+1)?></td>
                       <td><img class="app-sidebar__user-avatar" src="<?php echo($usuario['foto'])?>" alt="<?php echo($usuario['nombre'])?>"></td>
-                      <td><?php echo($usuario['nombre']);?></td>
+                      <td><?php echo($usuario['nombre'])?></td>
                       <td><?php echo($usuario['apellido'])?></td>
                       <td><?php echo($usuario['email'])?></td><!--01/11/2023 10:23:56-->
+                      <td><?php echo($usuario['nombre_rol'])?></td>
                       <td><?php echo($usuario['fecha_ultimo_acceso'])?></td>
                       <td><?php echo($usuario['esta_activo'])?><br> 
                       <td>
                         <!-- Button trigger modal -->
-                        <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
+                        <a data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
     
-                        <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
+                        <?php if($usuario['id_rol']!=1){?>
+                        <form role="form" method="post">
+                            <input type="hidden" hidden name="input_id_eliminar" value=<?php echo($usuario['id_usuario'])?>>
+                            <button style="background: none;border: 0;" type="submit" name="button_eliminar"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
+                        </form>
+                        <?php } ?>
                         
                       </td>
                     </tr>
