@@ -6,8 +6,6 @@ if(!isset($_SESSION['id'])){
 } 
 require_once "servicios/bd/solicitudes/select_solicitud_por_rol_usuario.php";
 $solicitudes=selectSolicitudPorRolUsuario();
-
-
 ?>
 
 <!DOCTYPE html>
@@ -60,17 +58,50 @@ $solicitudes=selectSolicitudPorRolUsuario();
                     <tr class="table-<?php echo($solicitud['color'])?>">
                       <td><?php echo($i+1)?></td>
                       <td><?php echo($solicitud['titulo'])?></td>
-                      <td><?php echo(substr($solicitud['descripcion'],1,20))?></td>
+                      <td><?php echo(substr($solicitud['descripcion'],1,20));?></td>
                       <td><?php echo($solicitud['nombre_tipo'])?></td>
                       <td><?php echo($solicitud['fecha_carga'])?></td><!--01/11/2023 10:23:56-->
                       <td><?php echo($solicitud['fecha_estimada_resolucion'])?></td>
-                      <td><?php echo($solicitud['nombre_usuario'])?><br> 
-                          <?php echo($solicitud['apellido_usuario'])?></td>
+                      <td><?php echo($solicitud['nombre_usuario']."<br>".$solicitud['apellido_usuario'])?><br> 
                       <td>
-                        <a href="#">Ver detalles...</a>
+                        <!-- Button trigger modal -->
+                        <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
+                        <?php if($_SESSION['id_rol']!=2 && isset($_SESSION['id'])){?>
                         <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
+                        <?php }?>
                       </td>
                     </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="detalles_modal<?php echo($i+1)?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Detalle de Solicitud</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item"><b>#</b><?php echo($i+1)?></li>
+                                  <li class="list-group-item"><b>ID de Solicitud:<br></b><?php echo($solicitud['id_solicitud'])?></li>
+                                  <li class="list-group-item" style="word-wrap: break-word;"><b>Titulo:<br></b><?php echo($solicitud['titulo'])?></li>
+                                  <li class="list-group-item" style="word-wrap: break-word;"><b>Descripcion:<br></b><?php echo($solicitud['descripcion'])?></li>
+                                  <li class="list-group-item"><b>Tipo de Solicitud:<br></b><?php echo($solicitud['nombre_tipo'])?></li>
+                                  <li class="list-group-item"><b>Fecha Registro:<br></b><?php echo($solicitud['fecha_carga'])?></li>
+                                  <li class="list-group-item"><b>Fecha Estimada:<br></b><?php echo($solicitud['fecha_estimada_resolucion'])?></li>
+                                  <li class="list-group-item"><b>Nombre Solicitante:<br></b><?php echo($solicitud['nombre_usuario'])?></li>
+                                  <li class="list-group-item"><b>Apellido Solicitante:<br></b><?php echo($solicitud['apellido_usuario'])?></li>
+                                  <li class="list-group-item"><b>Cargo de Solicitante:<br></b><?php echo($solicitud['nombre_rol'])?></li>
+                                </ul>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                   <?php }?>
                  
 
@@ -83,6 +114,12 @@ $solicitudes=selectSolicitudPorRolUsuario();
         
       </div>
     </main>
+
+
+
+
+
+
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>

@@ -3,9 +3,11 @@ function crearLogin($usuario,$clave){
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
     $usuario_array=array();
-    $QUERY="SELECT id,id_rol,nombre,apellido,foto,esta_activo FROM Usuarios WHERE email=? AND clave = MD5(?)";
+    $query="SELECT id,id_rol,nombre,apellido,foto,esta_activo 
+            FROM Usuarios U
+            WHERE email=? AND clave = MD5(?)";
     //stmt hace referencia a una sentencia preparada
-    $stmt = $conexion->prepare($QUERY);
+    $stmt = $conexion->prepare($query);
     $stmt->bind_param("ss", $usuario, $clave);
     $stmt->execute();
     //$request = mysqli_query($conexion, $QUERY);
@@ -21,14 +23,17 @@ function crearLogin($usuario,$clave){
         $usuario_array['apellido'] = $data['apellido'];
         
         if (empty( $data['foto'])) {
-            $data['foto'] = 'images/team/user.png'; 
+            $data['foto'] = 'sin foto'; 
         }
         $usuario_array['foto'] = $data['foto'];
         $usuario_array['esta_activo'] = $data['esta_activo'];
         
         $id=$usuario_array['id'];
-        $QUERY2="UPDATE Usuarios SET fecha_ultimo_acceso=CURDATE() WHERE id=$id";
-        mysqli_query($conexion, $QUERY2); 
+        $query2="UPDATE Usuarios SET fecha_ultimo_acceso=NOW() WHERE id=$id";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $stmt->close();
+        //mysqli_query($conexion, $QUERY2); 
     }
 
     return $usuario_array;

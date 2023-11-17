@@ -5,6 +5,8 @@ if(!isset($_SESSION['id']) || $_SESSION['id_rol']!=1){
   exit();
 } 
 
+require_once "servicios/bd/usuarios/select_todo_usuario.php";
+$usaurios=selectTodoUsuario();
 ?>
 
 <!DOCTYPE html>
@@ -21,15 +23,11 @@ if(!isset($_SESSION['id']) || $_SESSION['id_rol']!=1){
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-th-list"></i> Listados</h1>
-          <!-- si es administrador vera este titulo-->
+          <h1><i class="fa fa-th-list"></i> Usuarios</h1>
+        
           <p>Listado total de usuarios</p>
           
-          <!-- si es usuario normal vera este titulo-
-          <p>Listado de mis solicitudes cargadas</p> -->
-
-          <!-- si es analista o tecnico vera este titulo
-          <p>Listado de solicitudes cargadas</p> -->
+        
 
 
         </div>
@@ -53,55 +51,62 @@ if(!isset($_SESSION['id']) || $_SESSION['id_rol']!=1){
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>Clave</th>
                     <th>Último Acceso</th>
                     <th>¿Está Activo?</th>
                     <th>Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="table-danger">
-                    <td>1</td>
-                    <td><img class="app-sidebar__user-avatar" src="images/team/sue.png" alt="Sue Palacios"></td>
-                    <td>sue</td>
-                    <td>palacios</td>
-                    <td>email@fdsfds</td>
-                    <td>fdsfdsfsdf</td>
-                    <td>01/01/23</td>
-                    <td>Si</td>
-                    <td>
-                      <!--<a href="#">Ver detalles...</a>-->
-                      <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
-                    </td>
-                  </tr>
+                  <?php foreach($usaurios as $i=> $usuario){?>
+                    <tr class="table-<?php echo($usuario['color'])?>">
+                      <td><?php echo($i+1)?></td>
+                      <td><img class="app-sidebar__user-avatar" src="<?php echo($usuario['foto'])?>" alt="<?php echo($usuario['nombre'])?>"></td>
+                      <td><?php echo($usuario['nombre']);?></td>
+                      <td><?php echo($usuario['apellido'])?></td>
+                      <td><?php echo($usuario['email'])?></td><!--01/11/2023 10:23:56-->
+                      <td><?php echo($usuario['fecha_ultimo_acceso'])?></td>
+                      <td><?php echo($usuario['esta_activo'])?><br> 
+                      <td>
+                        <!-- Button trigger modal -->
+                        <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
+    
+                        <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
+                        
+                      </td>
+                    </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="detalles_modal<?php echo($i+1)?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Detalle de Usuario</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
 
-                  <tr class="table-info">
-                    <td>1</td>
-                    <td><img class="app-sidebar__user-avatar" src="images/team/sue.png" alt="Sue Palacios"></td>
-                    <td>sue</td>
-                    <td>palacios</td>
-                    <td>email@fdsfds</td>
-                    <td>fdsfdsfsdf</td>
-                    <td>01/01/23</td>
-                    <td>Si</td>
-                    <td>
-                      <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
-                    </td>
-                  </tr>
+                              <div class="modal-body">
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item"><b>#</b><?php echo($i+1)?></li>
+                                  <li class="list-group-item"><b>ID de Usuario:<br></b><?php echo($usuario['id_usuario'])?></li>
+                                  <li class="list-group-item" style="word-wrap: break-word;"><b>Rol:<br></b><?php echo($usuario['nombre_rol'])?></li>
+                                  <li class="list-group-item" style="word-wrap: break-word;"><b>Nombre:<br></b><?php echo($usuario['nombre'])?></li>
+                                  <li class="list-group-item"><b>Apellido:<br></b><?php echo($usuario['apellido'])?></li>
+                                  <li class="list-group-item"><b>Email:<br></b><?php echo($usuario['email'])?></li>
+                                  <li class="list-group-item"><b>Último Acceso:<br></b><?php echo($usuario['fecha_ultimo_acceso'])?></li>
+                                  <li class="list-group-item"><b>¿Activo?:<br></b><?php echo($usuario['esta_activo'])?></li>
+                                  <li class="list-group-item"><b>Foto:<br></b><img width="200px" height="200px" src="<?php echo(substr($usuario['foto'],0,-3)."jpg")?>" class="rounded mx-auto d-block" alt="<?php echo($usuario['nombre'])?>"></li>
+                                  
+                                </ul>
 
-                  <tr class="table-warning">
-                    <td>1</td>
-                    <td><img class="app-sidebar__user-avatar" src="images/team/sue.png" alt="Sue Palacios"></td>
-                    <td>sue</td>
-                    <td>palacios</td>
-                    <td>email@fdsfds</td>
-                    <td>fdsfdsfsdf</td>
-                    <td>01/01/23</td>
-                    <td>Si</td>
-                    <td>
-                      <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
-                    </td>
-                  </tr>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                  <?php }?>
                 </tbody>
               </table>
             </div>

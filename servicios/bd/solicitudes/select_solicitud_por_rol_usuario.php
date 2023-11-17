@@ -1,15 +1,17 @@
 <?php
 function selectSolicitudPorRolUsuario() {
     $solicitudes = array();
-    $_SESSION['id_rol'];
-    $_SESSION['id'];
+
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
-    $QUERY="SELECT 
-                    S.*, 
-                    T.nombre AS nombre_tipo, 
+    $query="SELECT 
+                    S.*,
+                    S.id AS id_solicitud, 
+                    T.id AS id_tipo,
+                    T.nombre AS nombre_tipo,
                     U.nombre AS nombre_usuario, 
                     U.apellido AS apellido_usuario,
+                    R.nombre AS nombre_rol,
                     DATE_FORMAT(S.fecha_carga,'%d/%m/%Y <br> %h:%i:%s') AS fecha_carga,
                     DATE_FORMAT(S.fecha_estimada_resolucion,'%d/%m/%Y <br> %h:%i:%s') AS fecha_estimada_resolucion
                 FROM 
@@ -24,16 +26,17 @@ function selectSolicitudPorRolUsuario() {
                     OR (?=4 AND (T.id=1 OR T.id=2))
                 ORDER BY fecha_carga ASC";
     // i d s b
-    $stmt = $conexion->prepare($QUERY);
+    $stmt = $conexion->prepare($query);
     $stmt->bind_param("iiiii",$_SESSION['id_rol'],$_SESSION['id_rol'],$_SESSION['id'],$_SESSION['id_rol'],$_SESSION['id_rol'] );
     $stmt->execute();
     $resultado = $stmt->get_result();
     
     $i=0;
     while ($data = $resultado->fetch_assoc()) {
-        $solicitudes[$i]['id'] = $data['id'];
-        $solicitudes[$i]['id_tipo'] = $data['id_tipo'];
+        $solicitudes[$i]['id_solicitud'] = $data['id_solicitud'];
+        //$solicitudes[$i]['id_tipo'] = $data['id_tipo'];
         $solicitudes[$i]['nombre_tipo'] = $data['nombre_tipo'];
+        $solicitudes[$i]['nombre_rol'] = $data['nombre_rol'];
         $solicitudes[$i]['nombre_usuario'] = $data['nombre_usuario'];
         $solicitudes[$i]['apellido_usuario'] = $data['apellido_usuario'];
         $solicitudes[$i]['titulo'] = $data['titulo'];

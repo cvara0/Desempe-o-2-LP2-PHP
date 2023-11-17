@@ -39,35 +39,35 @@ if(!isset($_SESSION['id'])){
       <div class="row">
         <div class="col-md-3">
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
-            <a href="lista_usuarios.php" class="info">
+            <div class="info">
               <h4>Usuarios</h4>
               <p><b>10</b></p>
-            </a>
+            </div>
           </div>
         </div>
         
         <div class="col-md-3">
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
-            <a href="" class="info">
+            <div class="info">
               <h4>Solicitudes Desarrollo</h4>
               <p><b>30</b></p>
-            </a>
+            </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
-            <a href="" class="info">
+            <div class="info">
               <h4>Solicitudes de Soporte Tecnico</h4>
               <p><b>90</b></p>
-            </a>
+            </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
-            <a href="" class="info">
+            <div class="info">
               <h4>Reportes de errores</h4>
               <p><b>20</b></p>
-            </a>
+            </div>
           </div>
         </div>
       </div>
