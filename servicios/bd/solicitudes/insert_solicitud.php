@@ -15,6 +15,7 @@ function insertSolicitud($input_titulo, $textarea_descripcion,$radio_tipo) {
         $estado_solicitud['color']='danger';
         return $estado_solicitud;
     }
+    
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
     $QUERY="INSERT INTO Solicitudes(id_tipo,id_usuario,titulo,descripcion,fecha_carga,fecha_estimada_resolucion) 

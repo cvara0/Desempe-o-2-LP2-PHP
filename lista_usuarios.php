@@ -77,7 +77,10 @@ if (isset($_POST['button_eliminar_usuario'])) {
                       <td><?php echo($usuario['email'])?></td><!--01/11/2023 10:23:56-->
                       <td><?php echo($usuario['nombre_rol'])?></td>
                       <td><?php echo($usuario['fecha_ultimo_acceso'])?></td>
-                      <td><?php echo($usuario['esta_activo'])?><br> 
+                      <td><?php echo($usuario['esta_activo'])?>
+                      <form class="form-check" role="form" method="post">
+                          <input type="checkbox" value=1 name="input_activo">
+                      </form>
                       <td>
                         <!-- Button trigger modal -->
                         <a data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
