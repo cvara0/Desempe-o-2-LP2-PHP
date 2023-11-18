@@ -80,12 +80,10 @@ if (isset($_POST['button_eliminar_solicitud'])) {
                         <!-- Button trigger modal -->
                         <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
                         <?php if($_SESSION['id_rol']!=2 && isset($_SESSION['id'])){?>
-                          <?php if($usuario['id_rol']!=1){?>
-                        <form role="form" method="post">
-                            <input type="hidden" hidden name="input_eliminar_solicitud" value=<?php echo($solicitud['id_solicitud'])?>>
-                            <button onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none" type="submit" name="button_eliminar_solicitud"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
-                        </form>
-                        <?php } ?>
+                            <form role="form" method="post">
+                                <input type="hidden" hidden name="input_eliminar_solicitud" value=<?php echo($solicitud['id_solicitud'])?>>
+                                <button onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none" type="submit" name="button_eliminar_solicitud"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
+                            </form>
                         <?php }?>
                       </td>
                     </tr>
