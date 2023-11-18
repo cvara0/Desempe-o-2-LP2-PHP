@@ -9,10 +9,10 @@ if(!isset($_SESSION['id'])){
 require_once "servicios/bd/usuarios/select_todo_usuario.php";
 $usaurios=selectTodoUsuario();
 
-if (isset($_POST['button_eliminar'])) {
+if (isset($_POST['button_eliminar_usuario'])) {
     
   require_once 'servicios/bd/usuarios/eliminar_usuario.php';
-  eliminarUsuario($_POST['input_id_eliminar']);
+  eliminarUsuario($_POST['input_eliminar_usuario']);
   header('Location: lista_usuarios.php');
   exit();
   //la consulta con la BD para que encuentre un usuario registrado con el usuario y clave brindados
@@ -84,8 +84,8 @@ if (isset($_POST['button_eliminar'])) {
     
                         <?php if($usuario['id_rol']!=1){?>
                         <form role="form" method="post">
-                            <input type="hidden" hidden name="input_id_eliminar" value=<?php echo($usuario['id_usuario'])?>>
-                            <button style="background: none;border: 0;" type="submit" name="button_eliminar"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
+                            <input type="hidden" hidden name="input_eliminar_usuario" value=<?php echo($usuario['id_usuario'])?>>
+                            <button onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none" type="submit" name="button_eliminar_usuario"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
                         </form>
                         <?php } ?>
                         

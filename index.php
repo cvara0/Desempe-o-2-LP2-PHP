@@ -4,7 +4,10 @@ if(!isset($_SESSION['id'])){
   header("Location: login_usuario.php");
   exit();
 }
+require_once "servicios/bd/usuarios/count_usuarios.php";
+require_once "servicios/bd/solicitudes/count_solicitudes.php";
 
+$cantidad_solicitudes=countSolicitudesPorTipo();
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +44,7 @@ if(!isset($_SESSION['id'])){
           <div class="widget-small primary coloured-icon"><i class="icon fa fa-users fa-3x"></i>
             <div class="info">
               <h4>Usuarios</h4>
-              <p><b>10</b></p>
+              <p><b><?php echo countUsuarios()?></b></p>
             </div>
           </div>
         </div>
@@ -50,7 +53,7 @@ if(!isset($_SESSION['id'])){
           <div class="widget-small info coloured-icon"><i class="icon fa fa-thumbs-o-up fa-3x"></i>
             <div class="info">
               <h4>Solicitudes Desarrollo</h4>
-              <p><b>30</b></p>
+              <p><b><?php echo $cantidad_solicitudes[1]?></b></p>
             </div>
           </div>
         </div>
@@ -58,7 +61,7 @@ if(!isset($_SESSION['id'])){
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
               <h4>Solicitudes de Soporte Tecnico</h4>
-              <p><b>90</b></p>
+              <p><b><?php echo $cantidad_solicitudes[3]?></b></p>
             </div>
           </div>
         </div>
@@ -66,7 +69,7 @@ if(!isset($_SESSION['id'])){
           <div class="widget-small danger coloured-icon"><i class="icon fa fa-star fa-3x"></i>
             <div class="info">
               <h4>Reportes de errores</h4>
-              <p><b>20</b></p>
+              <p><b><?php echo $cantidad_solicitudes[2]?></b></p>
             </div>
           </div>
         </div>

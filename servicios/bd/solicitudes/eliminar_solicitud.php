@@ -5,7 +5,8 @@ function eliminarSolicitud($input_id_eliminar) {
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
     if (isset($input_id_eliminar)) {
-        $query="DELETE FROM Usuarios WHERE id=?";
+        $conexion->query("SET foreign_key_checks = 0");
+        $query="DELETE FROM Solicitudes WHERE id=?";
         // i d s b
         $stmt = $conexion->prepare($query);
         $stmt->bind_param("i",$input_id_eliminar);
@@ -14,6 +15,7 @@ function eliminarSolicitud($input_id_eliminar) {
       
         $stmt->close();
         //return $usuarios;
+        $conexion->query("SET foreign_key_checks = 1");
     }
    
 }

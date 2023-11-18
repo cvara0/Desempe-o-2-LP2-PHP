@@ -7,6 +7,18 @@ if(!isset($_SESSION['id'])){
 } 
 require_once "servicios/bd/solicitudes/select_solicitud_por_rol_usuario.php";
 $solicitudes=selectSolicitudPorRolUsuario();
+
+
+if (isset($_POST['button_eliminar_solicitud'])) {
+    
+  require_once 'servicios/bd/solicitudes/eliminar_solicitud.php';
+  eliminarSolicitud($_POST['input_eliminar_solicitud']);
+  header('Location: lista_solicitudes.php');
+  exit();
+  //la consulta con la BD para que encuentre un usuario registrado con el usuario y clave brindados
+  
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +80,12 @@ $solicitudes=selectSolicitudPorRolUsuario();
                         <!-- Button trigger modal -->
                         <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
                         <?php if($_SESSION['id_rol']!=2 && isset($_SESSION['id'])){?>
-                        <a href="#"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</a>
+                          <?php if($usuario['id_rol']!=1){?>
+                        <form role="form" method="post">
+                            <input type="hidden" hidden name="input_eliminar_solicitud" value=<?php echo($solicitud['id_solicitud'])?>>
+                            <button onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none" type="submit" name="button_eliminar_solicitud"><i class="app-menu__icon fa fa-cog"></i>Eliminar...</button>
+                        </form>
+                        <?php } ?>
                         <?php }?>
                       </td>
                     </tr>
