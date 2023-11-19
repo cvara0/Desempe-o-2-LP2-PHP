@@ -4,17 +4,12 @@ if(isset($_SESSION['id'])){
   header("Location: index.php");
   exit();
 }
-$mensaje='';
 $nueva_clave =true;
-$hay_err_clave= false;
-$hay_err_email= false;
-$hay_err_activo= false;
 
 if (!empty($_POST['button_clave_reset'])) {
   
   require_once 'servicios/bd/usuarios/update_clave_usuario.php';
   $nueva_clave = reiniciarClave($_POST['input_email_reset']);
-  
 }
 
 ?>
@@ -80,12 +75,8 @@ if (!empty($_POST['button_clave_reset'])) {
       </div>
     </section>
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
+    <?php require_once "componentes/scripts_footer.inc.php"?>
+
     <script type="text/javascript">
       // Login Page Flipbox control
       $('.login-content [data-toggle="flip"]').click(function() {

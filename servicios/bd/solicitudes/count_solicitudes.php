@@ -11,13 +11,10 @@ function countSolicitudesPorTipo() {
     $stmt->execute();
     $resultado = $stmt->get_result();
 
-    
     while ($data = $resultado->fetch_assoc()) {
         // Almacena los conteos en el array asociativo usando el id_tipo como clave
         $solicitudes[$data['id_tipo']] = $data['conteo'];
-    
     }
-
 
     // Cierra la conexión y devuelve el resultado
     $stmt->close();

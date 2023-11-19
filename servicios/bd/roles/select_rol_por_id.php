@@ -3,8 +3,8 @@ function selectNombreRol($id_rol){
     $nombre_rol='';
     require_once "servicios/bd/conexion.php";
     $conexion=crearConexion();
-    $QUERY="SELECT nombre FROM Roles WHERE id=$id_rol";
-    $request=mysqli_query($conexion, $QUERY);
+    $query="SELECT nombre FROM Roles WHERE id=$id_rol";
+    $request=mysqli_query($conexion, $query);
     $data = mysqli_fetch_array($request);
     
     if (!empty($data)) {

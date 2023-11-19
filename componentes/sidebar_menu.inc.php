@@ -3,7 +3,7 @@
         
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="<?php echo($_SESSION['foto'])?>" alt="<?php echo($_SESSION['nombre'])?>">
           <div>
-            <p class="app-sidebar__user-name"><?php echo($_SESSION['nombre'])?></p>
+            <p class="app-sidebar__user-name"><?php echo($_SESSION['nombre']." ".$_SESSION['apellido'])?></p>
             <p class="app-sideba__user-designation"><?php
               require_once "servicios/bd/roles/select_rol_por_id.php";
               echo(selectNombreRol($_SESSION['id_rol']));

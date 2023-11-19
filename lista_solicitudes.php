@@ -71,14 +71,14 @@ if (isset($_POST['button_eliminar_solicitud'])) {
                     <tr class="table-<?php echo($solicitud['color'])?>">
                       <td><?php echo($i+1)?></td>
                       <td><?php echo($solicitud['titulo'])?></td>
-                      <td><?php echo(substr($solicitud['descripcion'],1,20));?></td>
+                      <td><?php echo(strlen($solicitud['descripcion'])>20?(substr($solicitud['descripcion'],0,20)."..."):$solicitud['descripcion']);?></td>
                       <td><?php echo($solicitud['nombre_tipo'])?></td>
                       <td><?php echo($solicitud['fecha_carga'])?></td><!--01/11/2023 10:23:56-->
                       <td><?php echo($solicitud['fecha_estimada_resolucion'])?></td>
                       <td><?php echo($solicitud['nombre_usuario']."<br>".$solicitud['apellido_usuario'])?><br> 
                       <td>
                         <!-- Button trigger modal -->
-                        <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
+                        <a  data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button" onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none">Ver detalles...</a>
                         <?php if($_SESSION['id_rol']!=2 && isset($_SESSION['id'])){?>
                             <form role="form" method="post">
                                 <input type="hidden" hidden name="input_eliminar_solicitud" value=<?php echo($solicitud['id_solicitud'])?>>
@@ -131,19 +131,8 @@ if (isset($_POST['button_eliminar_solicitud'])) {
       </div>
     </main>
 
-
-
-
-
-
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
+    <?php require_once "componentes/scripts_footer.inc.php"?>
     
   </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'servicios/bd/usuarios/existe_usuario.php';
-if(!isset($_SESSION['id'])){
+if(!isset($_SESSION['id']) || $_SESSION['id_rol']!=1){
   header("Location: login_usuario.php");
   exit();
 } 
@@ -15,8 +15,6 @@ if (isset($_POST['button_eliminar_usuario'])) {
   eliminarUsuario($_POST['input_eliminar_usuario']);
   header('Location: lista_usuarios.php');
   exit();
-  //la consulta con la BD para que encuentre un usuario registrado con el usuario y clave brindados
-  
 }
 
 
@@ -78,12 +76,9 @@ if (isset($_POST['button_eliminar_usuario'])) {
                       <td><?php echo($usuario['nombre_rol'])?></td>
                       <td><?php echo($usuario['fecha_ultimo_acceso'])?></td>
                       <td><?php echo($usuario['esta_activo'])?>
-                      <form class="form-check" role="form" method="post">
-                          <input type="checkbox" value=1 name="input_activo">
-                      </form>
                       <td>
                         <!-- Button trigger modal -->
-                        <a data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button">Ver detalles...</a>
+                        <a data-toggle="modal" data-target="#detalles_modal<?php echo($i+1)?>" type="button" onMouseOver="this.style.color='#004a43';this.style.textDecoration='underline'" onMouseOut="this.style.color='#009688';this.style.textDecoration='none'" style="color:#009688;text-decoration: none; background-color: transparent; border:none">Ver detalles...</a>
     
                         <?php if($usuario['id_rol']!=1){?>
                         <form role="form" method="post">
@@ -137,13 +132,7 @@ if (isset($_POST['button_eliminar_usuario'])) {
       </div>
     </main>
     <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
+    <?php require_once "componentes/scripts_footer.inc.php"?>
     
   </body>
 </html>

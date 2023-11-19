@@ -5,8 +5,14 @@ function insertSolicitud($input_titulo, $textarea_descripcion,$radio_tipo) {
     if(strlen($input_titulo) < 5) {
         $estado_solicitud['info'].= "Debes ingresar 5 caracteres como mínimo en título.<br>";
     }
+    if(strlen($input_titulo) > 100) {
+        $estado_solicitud['info'].= "Solo puedes ingresar hasta 100 como máximo en título.<br>";
+    }
     if(strlen($textarea_descripcion) < 5) {
         $estado_solicitud['info'].= "Debes ingresar 5 caracteres como mínimo en descripción.<br>";
+    }
+    if(strlen($textarea_descripcion) > 1000) {
+        $estado_solicitud['info'].= "Solo puedes ingresar hasta 1000 como máximo en descripción.<br>";
     }
     if(!$radio_tipo) {
         $estado_solicitud['info'].= "Selecciona un tipo de solicitud.<br>";
